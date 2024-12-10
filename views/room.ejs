@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>room</title>
+    <style>body{
+        padding: 0;
+        margin: 0;
+        font-family: WF Visual Sans Text,Arial,sans-serif;
+        height: 100vh;
+        width: 100vw;
+    }
+    header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 0px 5px black;
+        
+        padding: 0 10px 0 10px;
+        height: 7vh;
+    }
+    ul{
+        display: flex;
+        gap: 4vw;
+    }
+    li{
+        list-style: none;
+        cursor:pointer
+    }
+    header h2{
+            color: #1d73f5;
+            cursor:pointer;
+            font-size: 20px;
+            
+        }
+    main{
+        height: 80vh;
+        
+    }
+    footer{
+        display: flex;
+        justify-content: space-around;
+    }
+    footer input{
+        width: 69vw;
+        height: 30px;
+        border-radius: 10px;
+    }
+    footer button{
+        width: 20vw;
+        border-radius: 10px;
+        height: 36px;
+        cursor:pointer
+    }
+    footer p{
+        width: 7vw;
+        border-radius: 10px;
+        border: 2px solid black;
+        height: 30px;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .disNotify{
+        height: 4vh;
+        border: 2px solid black;
+
+    }
+    
+    </style>
+</head>
+<body>
+    <header>
+        <h2>
+            cricket fun room
+        </h2>
+        <ul>
+            <li>44 online</li>
+            <li>exit group</li>
+        </ul>
+    </header>
+    <main>
+       
+    </main>
+    <footer>
+        <p>+</p>
+        <input type="text" id="inputMsg" placeholder="enter message" maxlength="200" required>
+        <button>send</button>
+    </footer>
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        // const socket = io()
+        // const room = "cricket"
+        // socket.emit("joined-room" , room)
+    </script>
+</body>
+</html>
