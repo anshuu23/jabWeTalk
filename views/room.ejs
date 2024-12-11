@@ -85,18 +85,48 @@
         </ul>
     </header>
     <main>
-       
+        <div id="notificationBar"></div>
+
+       <div id="displayMsg"></div>
     </main>
     <footer>
         <p>+</p>
         <input type="text" id="inputMsg" placeholder="enter message" maxlength="200" required>
-        <button>send</button>
+        <button id="btn">send</button>
     </footer>
     <script src="socket.io/socket.io.js"></script>
     <script>
-        // const socket = io()
-        // const room = "cricket"
-        // socket.emit("joined-room" , room)
+        
+        const msgInput = document.querySelector("#inputMsg")
+        const button =  document.querySelector("#btn")
+        const displayMsg = document.querySelector("#displayMsg")
+        const notificationBar = document.querySelector("#notificationBar")
+
+        const user = <%- JSON.stringify(user) %>;
+        
+        const socket = io()
+        const room = "cricket"
+        console.log(user)
+        socket.emit("joined-room" , {user,room})
+
+        button.addEventListener("click" , ()=>{
+            const msgToSend = msgInput.value;
+            socket.emit("send-message" , {room , message:msgToSend })
+        })
+
+        socket.on("newUserJoinedMessage" , (name)=>{
+            notificationBar.innerHTML = `<p><b>${name}</b> joined the chat<p>`
+            
+        })
+        socket.on("userDisconnected" , (name)=>{
+            notificationBar.innerHTML = `<p> <b>${name}</b> has left the chat<p>`
+            
+        })
+
+        socket.on("userMessage" , (msg)=>{
+            displayMsg.innerHTML += msg + " <br>"
+        })  
+
     </script>
 </body>
 </html>

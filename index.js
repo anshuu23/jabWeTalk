@@ -30,10 +30,36 @@ app.use("/main" , mainRouter)
 app.use("/room",restrictTo(["standard"]), roomRouter)
 app.use('/' , staticRouter)
 
-
+let map = new Map()
 io.on("connection" , (socket)=>{
-    console.log("someone connected")
-})
+
+    socket.on("joined-room" , (data)=>{
+        const {room,user} = data
+        socket.join(room)
+        map.set(socket.id , {room , user})
+        console.log("username = "  + user)
+        socket.to(room).emit("newUserJoinedRoom" , user.name)
+    })
+
+    socket.on("send-message" , ({room,message})=>{
+        const obj = map.get(socket.id);
+        const userName =obj.user.name
+        console.log("tjis is user " +userName)
+        io.to(room).emit("userMessage" ,`User ${userName}: ${message}` )
+     })
+
+     socket.on("disconnect" , ()=>{
+        const userData = map.get(socket.id);
+        
+        if(userData){
+            const {room,user}=userData
+            socket.to(room).emit("userDisconnected" , user.name)
+            map.delete(socket.id)
+            
+        }
+     })
+
+})  
 
 const PORT = process.env.PORT
 server.listen( PORT , ()=>{

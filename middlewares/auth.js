@@ -26,6 +26,7 @@ function restrictTo(roles = []){
         if(!roles.includes(userRole)){
             res.redirect("/main")
         }
+        next()
     }
 }
 

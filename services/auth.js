@@ -3,7 +3,8 @@ const secretKey = process.env.TOKENKEY
 function setUser(user){
    const token = jwt.sign({
     email:user.email,
-    name:user.name
+    name:user.name,
+    userRole:user.userRole
    },secretKey)
    return token
 }
