@@ -71,6 +71,48 @@
         border: 2px solid black;
 
     }
+    #notificationBar{
+        height: 20px;
+       
+        font-size: 12px;
+        text-align: center;
+    }
+    #notificationBar p{
+        margin: 0;
+        padding: 0;
+        margin-top: 3px;
+    }
+    #displayMsg{
+        overflow-y: scroll;
+        height: 78vh;
+    }
+    .userMsgBlock{
+        border: 2px solid black;
+    margin: 4px;
+    padding: 5px;
+    max-width: 80vw;
+    width: fit-content;
+    border-radius: 10px;
+    min-width: 60px;
+    }
+    .userMsgBlockName{
+        height: 20px;
+        font-size: 12px;
+    }
+    .userMsgBlockTime{
+        font-size: 10px;
+        margin-top: 11px;
+    }
+    .userMsgBlockMsg{
+        overflow-wrap: break-word;
+    }
+    .userMsgBlockSelf{
+        float: right;
+        background-color: #8dbaff;
+    }
+    .wrapperSelf{
+        min-height: 84px;
+    }
     
     </style>
 </head>
@@ -93,6 +135,7 @@
         <p>+</p>
         <input type="text" id="inputMsg" placeholder="enter message" maxlength="200" required>
         <button id="btn">send</button>
+        
     </footer>
     <script src="socket.io/socket.io.js"></script>
     <script>
@@ -112,6 +155,13 @@
         button.addEventListener("click" , ()=>{
             const msgToSend = msgInput.value;
             socket.emit("send-message" , {room , message:msgToSend })
+            displayMsg.innerHTML +=  `<div class="wrapper wrapperSelf">
+                <div class="userMsgBlock userMsgBlockSelf" >
+            <div class="userMsgBlockName">${user.name}</div>
+            <div class="userMsgBlockMsg">${msgToSend}</div>
+            <div class="userMsgBlockTime">3:30 pm</div>
+            </div>
+            </div>`
         })
 
         socket.on("newUserJoinedMessage" , (name)=>{
@@ -123,8 +173,14 @@
             
         })
 
-        socket.on("userMessage" , (msg)=>{
-            displayMsg.innerHTML += msg + " <br>"
+        socket.on("userMessage" , ({userName , message})=>{
+            displayMsg.innerHTML +=  `<div class="wrapper ">
+                <div class="userMsgBlock " >
+            <div class="userMsgBlockName">${userName}</div>
+            <div class="userMsgBlockMsg">${message}</div>
+            <div class="userMsgBlockTime">3:30 pm</div>
+            </div>
+            </div>`
         })  
 
     </script>

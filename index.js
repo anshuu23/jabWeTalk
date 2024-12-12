@@ -38,14 +38,14 @@ io.on("connection" , (socket)=>{
         socket.join(room)
         map.set(socket.id , {room , user})
         console.log("username = "  + user)
-        socket.to(room).emit("newUserJoinedRoom" , user.name)
+        socket.to(room).emit("newUserJoinedMessage" , user.name)
     })
 
     socket.on("send-message" , ({room,message})=>{
         const obj = map.get(socket.id);
         const userName =obj.user.name
         console.log("tjis is user " +userName)
-        io.to(room).emit("userMessage" ,`User ${userName}: ${message}` )
+        socket.broadcast.to(room).emit("userMessage" ,{userName , message } )
      })
 
      socket.on("disconnect" , ()=>{
