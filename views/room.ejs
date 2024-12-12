@@ -182,6 +182,28 @@
             </div>
             </div>`
         })  
+        let typingTimeout; 
+        window.addEventListener("keypress" , ()=>{
+        socket.emit("someoneIsTyping" , room)
+        clearTimeout(typingTimeout);
+        
+         typingTimeout = setTimeout(() => {
+        socket.emit("stoppedTyping", room);
+        
+
+        }, 2000);
+
+       
+        })
+
+        socket.on("someoneIsTyping" , (name)=>{
+            notificationBar.innerHTML = `<p> <b>${name}</b> is typing...<p>`
+           
+        })
+
+        socket.on("stoppedTyping", () => {
+        notificationBar.innerHTML = ""; 
+        });
 
     </script>
 </body>
