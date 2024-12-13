@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Room</title>
+    <style>
+        header h2{
+            color: #1d73f5;
+        }
+        body{
+            padding: 0;
+            margin: 0;
+            font-family: WF Visual Sans Text,Arial,sans-serif;
+            
+        }
+        header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 0px 5px black;
+            margin-bottom: 20px;
+            padding: 0 10px 0 10px;
+        }
+        section{
+            max-width: 600px;
+            height: 453px;
+            border: 2px solid black;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            border-radius: 5px;
+        }
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            flex-direction: column;
+        }
+        input{
+            height: 30px;
+            width: 200px ;
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>jab we talk</h2>
+    </header>
+    <h1>Create Room</h1>
+
+    <section class="create-room">
+        
+        <form id="createRoomForm" method="post" action="/handelCreateRoom">
+            <label for="roomName">Room Name*</label>
+            <input type="text" id="roomName" placeholder="Enter a unique room name" name="roomName"><br>
+            
+            <label for="roomDescription">Room Description</label>
+            <textarea id="roomDescription" placeholder="What’s your room about?" name="roomDescription"></textarea><br>
+            
+            <label for="privacy">Privacy</label>
+            <select id="privacy" name="privacy">
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select><br>
+            
+            <div id="passwordField" style="display: none;">
+                <label for="roomPassword">Room Password</label>
+                <input type="password" id="roomPassword" placeholder="Enter a password"><br><br>
+            </div>
+            
+            <label for="roomTags" >Tags</label>
+            <input type="text" id="roomTags" name="roomTags" placeholder="e.g., Cricket, Sports"><br><br>
+            
+            <label for="roomImage" style="display: none;">Room Image (Optional)</label>
+            <input type="file" id="roomImage" accept="image/*"><br><br>
+            
+            <button type="submit">Create Room</button>
+        </form>
+    </section>
+    
+</body>
+</html>

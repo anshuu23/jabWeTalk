@@ -9,4 +9,8 @@ router.get("/login" , (req,res)=>{
     res.render("login")
 })
 
+router.get("/createRoom" , (req,res)=>{
+    res.render("createRoom")
+})
+
 module.exports=router

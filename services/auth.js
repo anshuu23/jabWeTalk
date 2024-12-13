@@ -4,7 +4,8 @@ function setUser(user){
    const token = jwt.sign({
     email:user.email,
     name:user.name,
-    userRole:user.userRole
+    userRole:user.userRole,
+    id:user._id
    },secretKey)
    return token
 }
