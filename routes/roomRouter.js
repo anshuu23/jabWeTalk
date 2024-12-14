@@ -2,7 +2,12 @@ const express= require("express")
 const router=express.Router()
 
 router.get("/" , (req,res)=>{
-    res.render("room" , {user:req.user})
+    const {room} = req.query
+    if(!room){
+        return res.redirect("main")
+    }
+
+    res.render("room" , {user:req.user , room})
 })
 
 

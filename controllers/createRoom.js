@@ -5,12 +5,17 @@ function handelCreateRoom(req,res){
     
     const roomAdmin = req.user.id
     let tagsArray = roomTags.split(",")
-    tagsArray = tagsArray.map(tag => tag.trim());
+
+    tags = tagsArray
+    .filter(tag => tag.trim() !== '')
+    .map(tag => ({ tagName: tag.trim() }));
+   
+       
     roomModel.create({
-        roomName , tagsArray , roomDescription , privacy,roomAdmin
+        roomName , tags , roomDescription , privacy,roomAdmin
     })
     .then((data)=>{
-        console.log(data)
+        return res.redirect("/main")
     })
     .catch((err)=>{
         console.log(err)
