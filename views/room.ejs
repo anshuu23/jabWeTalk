@@ -148,7 +148,7 @@
         const user = <%- JSON.stringify(user) %>; 
         
         const socket = io()
-        const room = "cricket"
+        const room = '<%= room %>'
         console.log(user)
         socket.emit("joined-room" , {user,room})
 
