@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
         const { room, user } = data
         socket.join(room)
         map.set(socket.id, { room, user })
-        console.log("username = " + user)
+        
         socket.to(room).emit("newUserJoinedMessage", user.name)
         if(!countUserInRoom.has(room)) {
             countUserInRoom.set(room , 1)
@@ -52,8 +52,16 @@ io.on("connection", (socket) => {
             counter = currentCount + 1;
             countUserInRoom.set(room ,counter)
         }
-        console.log(countUserInRoom)
         
+        
+    })
+
+    socket.on("HowManyUsersInRoom" , (room)=>{
+        
+        let usersInRoom = countUserInRoom.get(room);
+        if(!usersInRoom) usersInRoom = 0
+       
+        socket.emit("thisManyUsersInRoom" , {room,usersInRoom})
     })
 
     socket.on("send-message", ({ room, message }) => {
@@ -87,6 +95,7 @@ io.on("connection", (socket) => {
             const currentCount = countUserInRoom.get(room);
             counter = currentCount - 1;
             countUserInRoom.set(room ,counter)
+
 
 
 

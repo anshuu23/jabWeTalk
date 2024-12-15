@@ -10,7 +10,7 @@ function checkAuth(req,res,next){
         req.user = null;
     }
 
-    console.log(user);
+   
     req.user = user;
 
     next()
