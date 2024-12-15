@@ -33,6 +33,8 @@ app.use('/', staticRouter)
 app.use('/handelCreateRoom', createRoomRouter)
 
 let map = new Map()
+let countUserInRoom = new Map()
+let counter = 1;
 io.on("connection", (socket) => {
 
     socket.on("joined-room", (data) => {
@@ -41,6 +43,17 @@ io.on("connection", (socket) => {
         map.set(socket.id, { room, user })
         console.log("username = " + user)
         socket.to(room).emit("newUserJoinedMessage", user.name)
+        if(!countUserInRoom.has(room)) {
+            countUserInRoom.set(room , 1)
+        }
+        else
+        {
+            const currentCount = countUserInRoom.get(room);
+            counter = currentCount + 1;
+            countUserInRoom.set(room ,counter)
+        }
+        console.log(countUserInRoom)
+        
     })
 
     socket.on("send-message", ({ room, message }) => {
@@ -69,6 +82,13 @@ io.on("connection", (socket) => {
             const { room, user } = userData
             socket.to(room).emit("userDisconnected", user.name)
             map.delete(socket.id)
+            countUserInRoom.set(room , counter--)
+
+            const currentCount = countUserInRoom.get(room);
+            counter = currentCount - 1;
+            countUserInRoom.set(room ,counter)
+
+
 
         }
     })
