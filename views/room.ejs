@@ -26,7 +26,9 @@
     }
     li{
         list-style: none;
-        cursor:pointer
+        cursor:pointer;
+        display: flex;
+        
     }
     header h2{
             color: #1d73f5;
@@ -122,7 +124,8 @@
             <%= room %>
         </h2>
         <ul>
-            <li>44 online</li>
+
+            <li ><img src="/photos/eye.png" alt="eye img" height="17px"><div id="peopleInRoom"></div></li>
             <li>exit group</li>
         </ul>
     </header>
@@ -144,22 +147,26 @@
         const button =  document.querySelector("#btn")
         const displayMsg = document.querySelector("#displayMsg")
         const notificationBar = document.querySelector("#notificationBar")
-
+        const peopleInRoom = document.querySelector("#peopleInRoom")
         const user = <%- JSON.stringify(user) %>; 
         
         const socket = io()
         const room = '<%= room %>'
         console.log(user)
         socket.emit("joined-room" , {user,room})
+        socket.emit("HowManyUsersInRoom" , room)
 
         button.addEventListener("click" , ()=>{
             const msgToSend = msgInput.value;
-            socket.emit("send-message" , {room , message:msgToSend })
+            const messageId = generateMessageId();
+            socket.emit("send-message" , {room , message:msgToSend ,messageId })
             displayMsg.innerHTML +=  `<div class="wrapper wrapperSelf">
                 <div class="userMsgBlock userMsgBlockSelf" >
             <div class="userMsgBlockName">${user.name}</div>
+
             <div class="userMsgBlockMsg">${msgToSend}</div>
             <div class="userMsgBlockTime">3:30 pm</div>
+            <div id="${messageId}"></div>
             </div>
             </div>`
         })
@@ -173,7 +180,7 @@
             
         })
 
-        socket.on("userMessage" , ({userName , message})=>{
+        socket.on("userMessage" , ({userName , message ,messageId , userId})=>{
             displayMsg.innerHTML +=  `<div class="wrapper ">
                 <div class="userMsgBlock " >
             <div class="userMsgBlockName">${userName}</div>
@@ -181,6 +188,8 @@
             <div class="userMsgBlockTime">3:30 pm</div>
             </div>
             </div>`
+
+            socket.emit("messageStatusSeen" , {room , messageId , userId})
         })  
         let typingTimeout; 
         window.addEventListener("keypress" , ()=>{
@@ -204,6 +213,31 @@
         socket.on("stoppedTyping", () => {
         notificationBar.innerHTML = ""; 
         });
+
+        socket.on("thisManyUsersInRoom" , (data)=>{
+           if(data.room == room) peopleInRoom.innerHTML = data.usersInRoom
+        })
+
+        socket.on("messageStatus" , (messageId)=>{
+            let msgBlockToUpdate = document.querySelector(`#${messageId}`)
+            msgBlockToUpdate.innerHTML = "send"
+        })
+
+        socket.on("messageStatusSeen" , (messageId , userId )=>{
+            console.log(messageId , userId)
+            if(userId == user.id){
+            let msgBlockToUpdate = document.querySelector(`#${messageId}`)
+            msgBlockToUpdate.innerHTML = "Seen"
+            }
+        })
+        
+
+        function generateMessageId() {
+        const id = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        return `id_${id}`
+        }
+        
+         // Example: "kf7b2k9clix5a"
 
     </script>
 </body>

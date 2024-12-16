@@ -94,6 +94,13 @@
         .description{
             font-size: 14px;
         }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        .wrapperForEyeAndPeopelInRoom{
+            display: flex;
+        }
         
     </style>
 </head>
@@ -120,7 +127,7 @@
                     <a href="/room?room=<%=room.roomName%>">
                     <div class="defaultBlock">
                         <div class="roomTitle"><%=room.roomName%></div>
-                        <div class="peopleOnline" id="<%=room.roomName%>"><b>33</b> chatters</div>
+                        <div class="wrapperForEyeAndPeopelInRoom"><img src="/photos/eye.png" alt="eye img" height="17px"><b class="peopleOnline" id="<%=room.roomName%>"></b></div>
                         <div class="description"><%=  room.roomDescription%>. room.roomDescription</div>
                     </div></a>
                 <% }) %>

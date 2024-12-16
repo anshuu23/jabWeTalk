@@ -35,6 +35,10 @@ app.use('/handelCreateRoom', createRoomRouter)
 let map = new Map()
 let countUserInRoom = new Map()
 let counter = 1;
+let messageMap = new Map();
+
+
+
 io.on("connection", (socket) => {
 
     socket.on("joined-room", (data) => {
@@ -53,22 +57,32 @@ io.on("connection", (socket) => {
             countUserInRoom.set(room ,counter)
         }
         
-        
+        let usersInRoom = countUserInRoom.get(room);
+        if(!usersInRoom) usersInRoom = 0
+        io.emit("thisManyUsersInRoom" , {room,usersInRoom})
     })
 
     socket.on("HowManyUsersInRoom" , (room)=>{
         
         let usersInRoom = countUserInRoom.get(room);
         if(!usersInRoom) usersInRoom = 0
-       
         socket.emit("thisManyUsersInRoom" , {room,usersInRoom})
     })
 
-    socket.on("send-message", ({ room, message }) => {
+    socket.on("send-message", ({ room, message , messageId}) => {
         const obj = map.get(socket.id);
         const userName = obj.user.name
-       
-        socket.broadcast.to(room).emit("userMessage", { userName, message })
+        const userId = obj.user.id
+        console.log(obj)
+        socket.emit("messageStatus" , messageId )
+        socket.broadcast.to(room).emit("userMessage", { userName, message , messageId ,userId})
+        
+        messageMap.set(messageId , room)
+
+    })
+
+    socket.on("messageStatusSeen" , ({messageId , room , userId})=>{
+        socket.broadcast.to(room).emit("messageStatusSeen" ,messageId , userId);
     })
 
     socket.on("someoneIsTyping" , (room)=>{
@@ -96,10 +110,10 @@ io.on("connection", (socket) => {
             counter = currentCount - 1;
             countUserInRoom.set(room ,counter)
 
-
-
-
-        }
+            let usersInRoom = countUserInRoom.get(room);
+        if(!usersInRoom) usersInRoom = 0
+        io.emit("thisManyUsersInRoom" , {room,usersInRoom})
+    }
     })
 
 })
