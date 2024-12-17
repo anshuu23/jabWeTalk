@@ -104,6 +104,8 @@
     .userMsgBlockTime{
         font-size: 10px;
         margin-top: 11px;
+        display: flex;
+        justify-content: space-between;
     }
     .userMsgBlockMsg{
         overflow-wrap: break-word;
@@ -114,6 +116,9 @@
     }
     .wrapperSelf{
         min-height: 84px;
+    }
+    .msgStatus{
+        font-weight: 600;
     }
     
     </style>
@@ -155,22 +160,23 @@
         console.log(user)
         socket.emit("joined-room" , {user,room})
         socket.emit("HowManyUsersInRoom" , room)
+        
+        button.addEventListener("click" , sendBtnClicked)
 
-        button.addEventListener("click" , ()=>{
-            const msgToSend = msgInput.value;
-            const messageId = generateMessageId();
-            socket.emit("send-message" , {room , message:msgToSend ,messageId })
-            displayMsg.innerHTML +=  `<div class="wrapper wrapperSelf">
-                <div class="userMsgBlock userMsgBlockSelf" >
-            <div class="userMsgBlockName">${user.name}</div>
+        let isKeyPressed = false;
 
-            <div class="userMsgBlockMsg">${msgToSend}</div>
-            <div class="userMsgBlockTime">3:30 pm</div>
-            <div id="${messageId}"></div>
-            </div>
-            </div>`
-        })
+        window.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !isKeyPressed) {
+        isKeyPressed = true; // Mark key as pressed
+        sendBtnClicked();
+            }
+        });
 
+        window.addEventListener("keyup", (event) => {
+        if (event.key === "Enter") {
+        isKeyPressed = false; // Reset key press state
+    }
+});
         socket.on("newUserJoinedMessage" , (name)=>{
             notificationBar.innerHTML = `<p><b>${name}</b> joined the chat<p>`
             
@@ -188,6 +194,8 @@
             <div class="userMsgBlockTime">3:30 pm</div>
             </div>
             </div>`
+
+            displayMsg.scrollTop = displayMsg.scrollHeight;
 
             socket.emit("messageStatusSeen" , {room , messageId , userId})
         })  
@@ -227,7 +235,7 @@
             console.log(messageId , userId)
             if(userId == user.id){
             let msgBlockToUpdate = document.querySelector(`#${messageId}`)
-            msgBlockToUpdate.innerHTML = "Seen"
+            msgBlockToUpdate.innerHTML = "seen"
             }
         })
         
@@ -237,7 +245,28 @@
         return `id_${id}`
         }
         
-         // Example: "kf7b2k9clix5a"
+         
+
+         function sendBtnClicked(){
+            const msgToSend = msgInput.value;
+            if(!msgToSend){
+                return 
+            }
+            const messageId = generateMessageId();
+            socket.emit("send-message" , {room , message:msgToSend ,messageId })
+            displayMsg.innerHTML +=  `<div class="wrapper wrapperSelf">
+                <div class="userMsgBlock userMsgBlockSelf" >
+            <div class="userMsgBlockName">${user.name}</div>
+
+            <div class="userMsgBlockMsg">${msgToSend}</div>
+            <div class="userMsgBlockTime">3:30 pm <div id="${messageId}" class="msgStatus"></div></div>
+           
+            </div>
+            </div>`
+
+            displayMsg.scrollTop = displayMsg.scrollHeight;
+        }
+        
 
     </script>
 </body>
