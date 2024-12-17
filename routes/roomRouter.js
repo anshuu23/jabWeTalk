@@ -1,5 +1,6 @@
 const express= require("express")
 const router=express.Router()
+const {messageMap} = require("../services/webSocketService")
 
 router.get("/" , (req,res)=>{
     const {room} = req.query
@@ -7,7 +8,8 @@ router.get("/" , (req,res)=>{
         return res.redirect("main")
     }
 
-    res.render("room" , {user:req.user , room})
+    const messages = messageMap.get(room) || [];
+    res.render("room" , {user:req.user , room , messages })
 })
 
 
