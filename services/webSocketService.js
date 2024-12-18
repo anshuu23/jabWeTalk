@@ -15,6 +15,7 @@ function initializeSocket(server){
             const { room, user } = data
             socket.join(room)
             map.set(socket.id, { room, user })
+           
             
             socket.to(room).emit("newUserJoinedMessage", user.name)
             if(!countUserInRoom.has(room)) {
@@ -43,7 +44,7 @@ function initializeSocket(server){
             const obj = map.get(socket.id);
             const userName = obj.user.name
             const userId = obj.user.id
-            console.log(obj)
+            
             socket.emit("messageStatus" , messageId )
             socket.broadcast.to(room).emit("userMessage", { userName, message , messageId ,userId})
             
@@ -57,7 +58,7 @@ function initializeSocket(server){
             else{
             messageMap.set(room , [objOfMsg])
             }
-            console.log('this is messagemap',messageMap.get(room))
+           
         })
     
         socket.on("messageStatusSeen" , ({messageId , room , userId})=>{
@@ -73,7 +74,7 @@ function initializeSocket(server){
             const obj = map.get(socket.id);
             const userName = obj.user.name
             socket.broadcast.to(room).emit("stoppedTyping" , userName)
-            console.log("stopped typing")
+            
         })
     
         socket.on("disconnect", () => {

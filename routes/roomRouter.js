@@ -8,7 +8,10 @@ router.get("/" , (req,res)=>{
         return res.redirect("main")
     }
 
-    const messages = messageMap.get(room) || [];
+    let messages = messageMap.get(room) || [];
+    
+    console.log("this  is user 89" , req.user)
+    
     res.render("room" , {user:req.user , room , messages })
 })
 

@@ -7,6 +7,7 @@ function setUser(user){
     userRole:user.userRole,
     id:user._id
    },secretKey)
+   
    return token
 }
 

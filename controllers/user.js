@@ -22,7 +22,7 @@ function handelUserLogin(req,res){
     })
     .then((data)=>{
         if(!data) return res.redirect("/login")
-        
+        console.log("this is user obj set in auth" , data)
         const token = setUser(data)
         res.cookie("jwt" , token)
         return res.redirect("/main")
