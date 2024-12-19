@@ -15,6 +15,8 @@ function handelCreateRoom(req,res){
         roomName , tags , roomDescription , privacy,roomAdmin
     })
     .then((data)=>{
+        console.log("this data is saved in db" , data)
+
         return res.redirect("/main")
     })
     .catch((err)=>{
