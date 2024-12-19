@@ -7,6 +7,7 @@ const roomSchema = new mongoose.Schema({
     roomName:{
         type:String,
         required:true,
+        unique:true
     },
     roomDescription:{
         type:String,      
