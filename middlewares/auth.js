@@ -12,8 +12,6 @@ function checkAuth(req,res,next){
 
    
     req.user = user;
-    console.log("this  is user 89" , req.user)
-
     next()
 }
 
@@ -25,7 +23,8 @@ function restrictTo(roles = []){
         
         const userRole = req.user.userRole;
         if(!roles.includes(userRole)){
-            res.redirect("/main")
+            
+            res.redirect("/")
         }
         next()
     }

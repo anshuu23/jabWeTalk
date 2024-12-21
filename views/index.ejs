@@ -101,6 +101,46 @@
         label{
             margin-left: 15px;
         }
+        @media (max-width:800px) {
+            main{
+                grid-template-columns:none;
+                gap:30px
+
+            }
+            #section2{
+                margin: auto;
+            }
+            input , button{
+            height: 30px;
+            width: 250px;
+            border-radius: 20px;
+            border: 1px solid black;
+            font-size: 16px;
+            } 
+            #section2Block{
+                width: auto;
+            } 
+            #section2Block img {
+            height: 177px;
+            margin: auto;
+            }
+            form{
+                width: 250px;
+            }
+            header{
+                margin-bottom: 0;
+            }
+            header h2{
+                margin: auto;
+                font-size: 19px;
+            }
+            .section2Block2{
+                font-size: 15px;
+            }
+            .section2Block2 h1{
+                font-size: 20px;
+            }
+        }
         
     </style>
 </head>
@@ -110,7 +150,7 @@
         <ul>
             
             <li>already have account? <a href="/login">Log-in</a></li>
-            <li>About</li>
+            
         </ul>
     </header>
 
@@ -129,6 +169,10 @@
                 <input type="password" name="password" required ><br><br>
                 
                 <button type="submit">Create Account</button>
+
+                <% if (err) { %>
+                 <p style="color:rgb(225, 0, 0)"><%= err %>  <a href="/login">Log-in</a></p>
+                <% } %>
 
                 <p >By proceeding, I agree to <a href="">Jab-We-Talk's Privacy Statement</a> and <a href="">Terms of Service</a>.</p>
             

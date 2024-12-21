@@ -31,8 +31,9 @@ app.set("views", "views")
 app.use("/user", userRouter)
 app.use("/main", mainRouter)
 app.use("/room", restrictTo(["standard"]), roomRouter)
-app.use('/', staticRouter)
 app.use('/handelCreateRoom', createRoomRouter)
+app.use('/', staticRouter)
+
 
 
 const PORT = process.env.PORT

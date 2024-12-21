@@ -1,8 +1,9 @@
 const roomModel = require("../models/room")
 
 function handelCreateRoom(req,res){
-    const {roomName , roomTags, roomDescription, privacy} = req.body
-    
+    let {roomName , roomTags, roomDescription, privacy} = req.body
+    if(!roomName || !roomTags || !roomDescription || !privacy) return res.status(400).send({msg:"pls send all details"})
+    roomName = roomName.trim()
     const roomAdmin = req.user.id
     let tagsArray = roomTags.split(",")
 

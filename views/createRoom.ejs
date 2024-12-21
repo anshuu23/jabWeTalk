@@ -38,14 +38,19 @@
             align-items: baseline;
             flex-direction: column;
         }
-        input{
+        input , button{
             height: 30px;
             width: 200px ;
             border-radius: 10px;
             border: 1px solid black;
         }
-        h1{
+        h2{
             text-align: center;
+        }
+        @media (max-width:700px) {
+            section{
+                width: 80vw;
+            }
         }
     </style>
 </head>
@@ -53,16 +58,16 @@
     <header>
         <h2>jab we talk</h2>
     </header>
-    <h1>Create Room</h1>
+    <h2>Create Room</h2>
 
     <section class="create-room">
         
         <form id="createRoomForm" method="post" action="/handelCreateRoom">
             <label for="roomName">Room Name*</label>
-            <input type="text" id="roomName" placeholder="Enter a unique room name" name="roomName"><br>
+            <input type="text" id="roomName" placeholder="Enter a unique room name" name="roomName" required maxlength="200"><br>
             
             <label for="roomDescription">Room Description</label>
-            <textarea id="roomDescription" placeholder="What’s your room about?" name="roomDescription"></textarea><br>
+            <textarea id="roomDescription" placeholder="What’s your room about?" name="roomDescription" required  maxlength="100"></textarea><br>
             
             <label for="privacy">Privacy</label>
             <select id="privacy" name="privacy">
@@ -75,7 +80,7 @@
                 <input type="password" id="roomPassword" placeholder="Enter a password"><br><br>
             </div>
             
-            <label for="roomTags" >Tags</label>
+            <label for="roomTags"  maxlength="200">Tags</label>
             <input type="text" id="roomTags" name="roomTags" placeholder="e.g., Cricket, Sports"><br><br>
             
             <label for="roomImage" style="display: none;">Room Image (Optional)</label>

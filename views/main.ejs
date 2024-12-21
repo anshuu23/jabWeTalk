@@ -24,6 +24,9 @@
         }
         li{
             list-style: none;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid black;
         }
         .intro{
             
@@ -36,6 +39,7 @@
             background-size: 300px;
     background-repeat: no-repeat;
     background-position: 82%;
+    border: 2px solid;
         }
         main{
             padding: 10px;
@@ -101,17 +105,43 @@
         .wrapperForEyeAndPeopelInRoom{
             display: flex;
         }
+        .createRoom{
+            border: 2px solid;
+            border-radius: 5px;
+            margin-top: 30px;
+            padding: 50px;
+        }
+        .createRoom h2{
+            margin: 0;
+        }
+        .createRoom button{
+            height: 40px;
+            width: 230px;
+            border-radius: 20px;
+        }
+        .createRoom button:hover{
+           background-color: rgb(148, 209, 252);
+        }
+        @media (max-width:750px) {
+           .intro{
+            height: auto;
+            padding: 30px;
+            background-image: none;
+
+           }
+           .defaultBlock{
+            width: 80vw;
+           }
+        }
         
     </style>
 </head>
 <body>
     <header>
         <h2>jab we talk </h2>
-        <ul>
-            <li>About</li>
-            <li>Random chat</li>
-            <li>Chat rooms</li>
-            <li>Create Rooms</li>
+        <ul>   
+            <li><a href="/login">Log-in</a></li>
+            <li><a href="/CreateAccount">Sign-up</a></li>
         </ul>
     </header>
     <main>
@@ -128,7 +158,7 @@
                     <div class="defaultBlock">
                         <div class="roomTitle"><%=room.roomName%></div>
                         <div class="wrapperForEyeAndPeopelInRoom"><img src="/photos/eye.png" alt="eye img" height="17px"><b class="peopleOnline" id="<%=room.roomName%>"></b></div>
-                        <div class="description"><%=  room.roomDescription%>. room.roomDescription</div>
+                        <div class="description"><%=  room.roomDescription%></div>
                     </div></a>
                 <% }) %>
                 <a href="/room?room='cricket'">
