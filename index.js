@@ -8,6 +8,7 @@ const userRouter = require("./routes/userRouter")
 const mainRouter = require("./routes/mainRouter")
 const roomRouter = require("./routes/roomRouter")
 const createRoomRouter = require("./routes/createRoomRouter")
+const randomChatRouter = require("./routes/randomChatRouter")
 const {initializeSocket} = require("./services/webSocketService")
 
 const http = require("http")
@@ -25,12 +26,14 @@ app.use(checkAuth)
 mongoose.connect(process.env.MONGODBURL).then(() => console.log("connected to mongodb"))
 
 
+
 app.set("view engine", "ejs")
 app.set("views", "views")
 
 app.use("/user", userRouter)
 app.use("/main", mainRouter)
 app.use("/room", restrictTo(["standard"]), roomRouter)
+app.use("/randomChat", restrictTo(["standard"]), randomChatRouter)
 app.use('/handelCreateRoom', createRoomRouter)
 app.use('/', staticRouter)
 

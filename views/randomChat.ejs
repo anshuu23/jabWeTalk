@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>room</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        font-family: WF Visual Sans Text, Arial, sans-serif;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 0px 5px black;
+
+        padding: 0 10px 0 10px;
+        height: 7vh;
+      }
+
+      ul {
+        display: flex;
+        gap: 4vw;
+      }
+
+      li {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+      }
+
+      header h2 {
+        color: #1d73f5;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      main {
+        height: 80vh;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      footer input {
+        width: 69vw;
+        height: 30px;
+        border-radius: 10px;
+      }
+
+      footer button {
+        width: 20vw;
+        border-radius: 10px;
+        height: 36px;
+        cursor: pointer;
+      }
+
+      footer p {
+        width: 7vw;
+        border-radius: 10px;
+        border: 2px solid black;
+        height: 30px;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .disNotify {
+        height: 4vh;
+        border: 2px solid black;
+      }
+
+      #notificationBar {
+        height: 20px;
+
+        font-size: 12px;
+        text-align: center;
+      }
+
+      #notificationBar p {
+        margin: 0;
+        padding: 0;
+        margin-top: 3px;
+      }
+
+      #displayMsg {
+        overflow-y: scroll;
+        height: 78vh;
+      }
+
+      .userMsgBlock {
+        border: 2px solid black;
+        margin: 4px;
+        padding: 5px;
+        max-width: 80vw;
+        width: fit-content;
+        border-radius: 10px;
+        min-width: 60px;
+      }
+
+      .userMsgBlockName {
+        height: 20px;
+        font-size: 12px;
+      }
+
+      .userMsgBlockTime {
+        font-size: 10px;
+        margin-top: 11px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .userMsgBlockMsg {
+        overflow-wrap: break-word;
+      }
+
+      .userMsgBlockSelf {
+        float: right;
+        background-color: #8dbaff;
+      }
+
+      .wrapperSelf {
+        min-height: 84px;
+      }
+
+      .msgStatus {
+        font-weight: 600;
+      }
+      .updateConnectionStatus{
+        padding: 20px;
+        font-size: 20px;
+      }
+      #chatOption{
+        padding: 5px;
+        border: 2px solid;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+      li a{
+        text-decoration: none;
+        color: black;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h2>Jab We Talk</h2>
+      <ul>
+        
+        <li><a href="/randomChat" id="chatOption">End Chat</a></li>
+      </ul>
+    </header>
+    <main>
+      <div id="notificationBar"></div>
+
+      <div id="displayMsg"></div>
+    </main>
+    <footer>
+      <p>+</p>
+      <input
+        type="text"
+        id="inputMsg"
+        placeholder="enter message"
+        maxlength="256"
+        required
+      />
+      <button id="btn">send</button>
+    </footer>
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+    const socket = io()
+
+    const msgInput = document.querySelector("#inputMsg")
+      const button = document.querySelector("#btn")
+      const displayMsg = document.querySelector("#displayMsg")
+      const notificationBar = document.querySelector("#notificationBar")
+      const chatOption = document.querySelector("#chatOption")
+      const user = <%- JSON.stringify(user) %>;
+      let sendersName = null ;
+      
+      let room = null;
+      socket.emit("joined-randomChat", {user})
+
+      socket.on("waitingForPerson" , ()=>{
+        displayMsg.innerHTML = "<p class='updateConnectionStatus'>waiting for user to connect</p>"
+      })
+      socket.on("newUserJoinedMessage", ({name ,roomm}) => {
+        console.log(name)
+          displayMsg.innerHTML = `<p class='updateConnectionStatus'>you are connected to ${name}</p>`
+          room = roomm;
+          
+          sendersName = name
+      })
+
+      button.addEventListener("click", sendBtnClicked)
+
+      function sendBtnClicked() {
+          const msgToSend = msgInput.value;
+          const now = new Date();
+          const hours = now.getHours();
+          const minutes = now.getMinutes();
+          const time = `${hours}:${minutes}`
+          if (!msgToSend) {
+              return
+          }
+         
+          socket.emit("sendMessageRandomChat", { room, message: msgToSend,time })
+          displayMsg.innerHTML += `<div class="wrapper wrapperSelf">
+              <div class="userMsgBlock userMsgBlockSelf" >
+          <div class="userMsgBlockName">${user.name}</div>
+
+          <div class="userMsgBlockMsg">${msgToSend}</div>
+          <div class="userMsgBlockTime">${time} <div class="msgStatus"></div></div>
+
+          </div>
+          </div>`
+
+          displayMsg.scrollTop = displayMsg.scrollHeight;
+          msgInput.value = ''
+      }
+
+      let isKeyPressed = false;
+
+      window.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" && !isKeyPressed) {
+              isKeyPressed = true; // Mark key as pressed
+              sendBtnClicked();
+          }
+      });
+
+      window.addEventListener("keyup", (event) => {
+          if (event.key === "Enter") {
+              isKeyPressed = false; // Reset key press state
+          }
+      });
+
+      socket.on("recivedMessageRandomChat", ({ message,time}) => {
+        console.log("send message")
+        console.log(message)
+          displayMsg.innerHTML += `<div class="wrapper ">
+              <div class="userMsgBlock " >
+          <div class="userMsgBlockName">${sendersName}</div>
+          <div class="userMsgBlockMsg">${message}</div>
+          <div class="userMsgBlockTime">${time}</div>
+          </div>
+          </div>`
+
+          displayMsg.scrollTop = displayMsg.scrollHeight;
+
+          socket.emit("messageStatusSeen", { room, messageId, userId})
+      })
+
+      socket.on("userLeftChat" , ()=>{
+        displayMsg.innerHTML += `<p class='updateConnectionStatus'>user left chat , <a href="/randomChat">start new chat<a></p>`
+            displayMsg.scrollTop = displayMsg.scrollHeight;
+            chatOption.innerHTML = "start new chat"
+      })
+
+        let typingTimeout;
+        window.addEventListener("keypress", () => {
+        socket.emit("someoneIsTypingAtRandomChat", room)
+        clearTimeout(typingTimeout);
+
+        typingTimeout = setTimeout(() => {
+            socket.emit("stoppedTypingAtRandomChat", room);
+            }, 2000);
+        })
+
+      socket.on("TheyAreTyping", () => {
+          notificationBar.innerHTML = `<p> <b>${sendersName}</b> is typing...<p>`
+
+      })
+
+      socket.on("stoppedTyping", () => {
+          notificationBar.innerHTML = "";
+      });
+    
+    </script>
+  </body>
+</html>

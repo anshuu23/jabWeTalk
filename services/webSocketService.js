@@ -2,7 +2,8 @@ const {Server} = require("socket.io")
 
 let map = new Map()
 let countUserInRoom = new Map()
-let counter = 1;
+let randomChatArray = []
+let randomChatMap = new Map()
 let messageMap = new Map();
 
 function scheduleReset() {
@@ -42,7 +43,7 @@ function initializeSocket(server){
             else
             {
                 const currentCount = countUserInRoom.get(room);
-                counter = currentCount + 1;
+                let counter = currentCount + 1;
                 countUserInRoom.set(room ,counter)
             }
             
@@ -50,6 +51,8 @@ function initializeSocket(server){
             if(!usersInRoom) usersInRoom = 0
             io.emit("thisManyUsersInRoom" , {room,usersInRoom})
         })
+
+        
     
         socket.on("HowManyUsersInRoom" , (room)=>{
             
@@ -60,9 +63,9 @@ function initializeSocket(server){
     
         socket.on("send-message", ({ room, message , messageId , time}) => {
             const obj = map.get(socket.id);
-            const userName = obj.user.name
+            const userName = obj.user.name 
             const userId = obj.user.id
-           
+            
             socket.emit("messageStatus" , messageId )
             socket.broadcast.to(room).emit("userMessage", { userName, message , messageId ,userId , time , messageStatus:false})
             
@@ -105,12 +108,26 @@ function initializeSocket(server){
     
         socket.on("disconnect", () => {
             const userData = map.get(socket.id);
+            
+                if(randomChatArray.includes(socket)){
+                    const index = randomChatArray.indexOf(socket); 
+                    if (index !== -1) {
+                        randomChatArray.splice(index, 1); 
+                    }
+                }
+                if(randomChatMap.has(socket.id)){
+                const room =randomChatMap.get(socket.id);
+                io.to(room).emit("userLeftChat")
+                randomChatMap.delete(socket.id)
+                console.log("user left chat")
+                }
+            
     
             if (userData) {
                 const { room, user } = userData
                 socket.to(room).emit("userDisconnected", user.name)
                 map.delete(socket.id)
-                countUserInRoom.set(room , counter--)
+
     
                 const currentCount = countUserInRoom.get(room);
                 counter = currentCount - 1;
@@ -121,6 +138,43 @@ function initializeSocket(server){
             io.emit("thisManyUsersInRoom" , {room,usersInRoom})
         }
         })
+
+        socket.on("joined-randomChat" , (user)=>{
+        
+            if(randomChatArray.length == 0){
+                socket.user = user
+                randomChatArray.push(socket)
+               
+                socket.emit("waitingForPerson")
+            }
+            else{
+                const room = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+                socket.join(room);
+                const partner = randomChatArray.pop()
+                partner.join(room);
+                socket.emit("newUserJoinedMessage", {name:partner.user.user.name , roomm:room})
+                io.to(partner.id).emit("newUserJoinedMessage", {name:user.user.name , roomm:room})
+                console.log("paired" , randomChatArray.length , user.user.name , room)
+
+                randomChatMap.set(partner.id , room)
+                randomChatMap.set(socket.id , room)
+                console.log(partner.id , room ,socket.id , room)   
+            }
+    
+            })
+            socket.on("sendMessageRandomChat" , ({ room, message ,  time})=>{
+                console.log(message , room)
+                socket.broadcast.to(room).emit("recivedMessageRandomChat" ,{message ,time})
+            })
+
+            socket.on("someoneIsTypingAtRandomChat" , (room)=>{
+                socket.broadcast.to(room).emit("TheyAreTyping")
+            })
+            
+            socket.on("stoppedTypingAtRandomChat" , (room)=>{
+                socket.broadcast.to(room).emit("stoppedTyping")
+            })
+
     
     })
     
