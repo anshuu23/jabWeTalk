@@ -8,11 +8,16 @@ router.get("/createAccount" , (req,res)=>{
 })
 
 router.get("/login" , (req,res)=>{
+    let err = req.query.error;
     res.render("login")
 })
 
 router.get("/createRoom" , (req,res)=>{
     res.render("createRoom")
+})
+
+router.get("/about" , (req,res)=>{
+    res.render("about")
 })
 
 

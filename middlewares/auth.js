@@ -18,7 +18,7 @@ function checkAuth(req,res,next){
 function restrictTo(roles = []){
     return function (req,res,next){
         if(!req.user){
-            return res.redirect("/login")
+            return res.redirect("/createAccount")
         }
         
         const userRole = req.user.userRole;

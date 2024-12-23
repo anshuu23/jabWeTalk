@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         body{
+            padding: 0;
+            margin: 0;
+         font-family: WF Visual Sans Text,Arial,sans-serif;
+        }
+        header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 0px 5px black;
+            margin-bottom: 20px;
+            padding: 0 10px 0 10px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        ul{
+            display: flex;
+            gap: 4vw;
+        }
+        li{
+            list-style: none;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid black;
+        }
+        .popularChatRooms{
+            height: 40vh;
+            overflow-y: scroll;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+        .defaultBlock{
+            border: 2px solid black;
+            border-radius: 10px;
+            margin: 5px ;
+            display: grid;
+            grid-template-columns: 3fr auto;
+            width: 400px;
+            height: 50px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .defaultBlock:hover{
+            background-color: #1d73f578;
+        }
+        .chatRooms{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            }
+            header h2{
+            color: #1d73f5;
+        }
+        .roomTitle{
+            font-weight: 600;
+        }
+        .description{
+            font-size: 14px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        .wrapperForEyeAndPeopelInRoom{
+            display: flex;
+        }
+        .searchRoom{
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: -webkit-fill-available;
+            margin-top: 30px;
+        }
+        .searchRoom input ,  .searchRoom button{
+            height: 30px;
+            width: 250px;
+            border-radius: 10px;
+            border: 2px solid black;
+        }
+        .searchRoom button{
+            width: 80px;
+            cursor: pointer;
+        }
+        @media (max-width:750px) {
+           .intro{
+            height: auto;
+            padding: 30px;
+            background-image: none;
+
+           }
+           .defaultBlock{
+            width: 80vw;
+           }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>jab we talk </h2>
+        <ul>   
+            <li><a href="/login">Log-in</a></li>
+            <li><a href="/CreateAccount">Sign-up</a></li>
+        </ul>
+    </header>
+    <main>
+    <div class="searchRoom">
+        <form action="/room/findRoom" method="post">
+            Search Room : <input type="text" name="roomName" required placeholder="room name or room tag">
+            <button type="submit">search</button>
+        </form>
+    </div>
+    <div class="popularChatRooms"> 
+        <% data.forEach(room => { %>
+            <a href="/room?room=<%=room.roomName%>">
+            <div class="defaultBlock">
+                <div class="roomTitle"><%=room.roomName%></div>
+                <div class="wrapperForEyeAndPeopelInRoom"><img src="/photos/eye.png" alt="eye img" height="17px"><b class="peopleOnline" id="<%=room.roomName%>"></b></div>
+                <div class="description"><%=  room.roomDescription%></div>
+            </div></a>
+        <% }) %>
+       
+        </div>
+        <div class="changePage">
+            <form action="/room/findRoom?page=<%= page + 1 %>" method="post">
+                <button type="submit">next page</button>
+            </form>
+        </div>
+</main>
+</body>
+</html>

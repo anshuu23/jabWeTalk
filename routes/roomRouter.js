@@ -1,6 +1,8 @@
 const express= require("express")
 const router=express.Router()
-const {handelRoomRequest} = require("../controllers/room")
+const {handelRoomRequest , handelFindRoomRequest} = require("../controllers/room")
+
+router.post("/findRoom" , handelFindRoomRequest)
 
 router.get("/" , handelRoomRequest)
 

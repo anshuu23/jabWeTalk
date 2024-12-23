@@ -5,11 +5,15 @@ function handelUserAccountCreateion(req,res){
     const {email,password,name} = req.body;
     if(!email || !password || !name) return  res.redirect("/")
     user.create({email,password,name})
-    .then(()=>{
-        res.redirect("/login")
+    .then((data)=>{
+        if(!data) return res.redirect("/login")
+       
+        const token = setUser(data)
+        res.cookie("jwt" , token)
+        return res.redirect("/main")
     })
     .catch((err)=>{
-        res.redirect("/?error=email alreay exist")
+        res.redirect("/createAccount?error=Account with this E-mail alreay exist")
     })
 }
 
@@ -21,7 +25,7 @@ function handelUserLogin(req,res){
         email,password
     })
     .then((data)=>{
-        if(!data) return res.redirect("/login")
+        if(!data) return res.redirect("/login?error=no account with email exist")
        
         const token = setUser(data)
         res.cookie("jwt" , token)

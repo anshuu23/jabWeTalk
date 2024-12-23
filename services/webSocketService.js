@@ -1,10 +1,11 @@
 const {Server} = require("socket.io")
-
+const {saveMessageToDb} =require("./saveMessageToDb")
+const messageMap = require("./map")
 let map = new Map()
 let countUserInRoom = new Map()
 let randomChatArray = []
 let randomChatMap = new Map()
-let messageMap = new Map();
+
 
 function scheduleReset() {
     const now = new Date();
@@ -24,6 +25,7 @@ function scheduleReset() {
 }
 
 scheduleReset();
+
 function initializeSocket(server){
     const io = new Server(server);
 
@@ -79,6 +81,9 @@ function initializeSocket(server){
             else{
             messageMap.set(room , [objOfMsg])
             }
+            if(messageMap.get(room).length > 200){
+                saveMessageToDb(room)
+            }
             
         })
     
@@ -119,7 +124,7 @@ function initializeSocket(server){
                 const room =randomChatMap.get(socket.id);
                 io.to(room).emit("userLeftChat")
                 randomChatMap.delete(socket.id)
-                console.log("user left chat")
+                
                 }
             
     
@@ -154,16 +159,16 @@ function initializeSocket(server){
                 partner.join(room);
                 socket.emit("newUserJoinedMessage", {name:partner.user.user.name , roomm:room})
                 io.to(partner.id).emit("newUserJoinedMessage", {name:user.user.name , roomm:room})
-                console.log("paired" , randomChatArray.length , user.user.name , room)
+
 
                 randomChatMap.set(partner.id , room)
                 randomChatMap.set(socket.id , room)
-                console.log(partner.id , room ,socket.id , room)   
+               
             }
     
             })
             socket.on("sendMessageRandomChat" , ({ room, message ,  time})=>{
-                console.log(message , room)
+                
                 socket.broadcast.to(room).emit("recivedMessageRandomChat" ,{message ,time})
             })
 

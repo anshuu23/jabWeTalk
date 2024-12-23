@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
     <title>main</title>
     <style>
         body{
             padding: 0;
             margin: 0;
-            font-family: WF Visual Sans Text,Arial,sans-serif;
+         font-family: WF Visual Sans Text,Arial,sans-serif;
         }
         header{
             display: flex;
@@ -17,6 +20,7 @@
             box-shadow: 0px 0px 5px black;
             margin-bottom: 20px;
             padding: 0 10px 0 10px;
+            font-family: 'Times New Roman', Times, serif;
         }
         ul{
             display: flex;
@@ -122,6 +126,23 @@
         .createRoom button:hover{
            background-color: rgb(148, 209, 252);
         }
+        .searchRoom{
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: -webkit-fill-available;
+            margin-top: 30px;
+        }
+        .searchRoom input ,  .searchRoom button{
+            height: 30px;
+            width: 250px;
+            border-radius: 10px;
+            border: 2px solid black;
+        }
+        .searchRoom button{
+            width: 80px;
+            cursor: pointer;
+        }
         @media (max-width:750px) {
            .intro{
             height: auto;
@@ -150,6 +171,13 @@
             <p>  Welcome to jab we talk -<br> the ultimate platform for real-time conversations. Whether you want to meet random strangers or join vibrant chatrooms, we’ve got you covered. Say goodbye to boredom!<p>
         </div>
         <div class="chatRooms">
+
+            <div class="searchRoom">
+                <form action="/room/findRoom" method="post">
+                    Search Room : <input type="text" name="roomName" required placeholder="room name or room tag">
+                    <button type="submit">search</button>
+                </form>
+            </div>
             <h2>Popular chat rooms</h2>
             
             <div class="popularChatRooms"> 
@@ -172,6 +200,7 @@
             <h4>Start meaningful conversations by creating a space for your interests. Give your room a name, add a description, and invite the world to join!</h4>
             <a href="/createRoom"><button>Create room</button></a>
         </div>
+        
         <div class="randomChat">
 
             <h2>chat with random peoples</h2>

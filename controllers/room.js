@@ -20,5 +20,24 @@ function handelRoomRequest(req,res){
 
         
     }
+    function handelFindRoomRequest(req,res){
+        let {roomName , page}  = req.body
+        if(!page) page = 1;
+        const limit = 3;
+        console.log(page)
+        roomName = roomName.trim()
+        roomModel.find({
+            $or: [
+                { roomName : { $regex: `^${roomName}$`, $options: 'i' }}, 
+                { 'tags.tagName': { $regex: `^${roomName}$`, $options: 'i' } }
+            ]
+        })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .then((data)=>{
+          return  res.render("findRoom",{data , page , roomName})
+        })
+        
+    }
 
-module.exports = {handelRoomRequest}
+module.exports = {handelRoomRequest , handelFindRoomRequest}
