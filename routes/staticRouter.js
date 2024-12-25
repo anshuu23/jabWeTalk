@@ -9,7 +9,8 @@ router.get("/createAccount" , (req,res)=>{
 
 router.get("/login" , (req,res)=>{
     let err = req.query.error;
-    res.render("login")
+    if(!err) err = null
+    res.render("login" , {err})
 })
 
 router.get("/createRoom" , (req,res)=>{

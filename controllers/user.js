@@ -26,7 +26,6 @@ function handelUserLogin(req,res){
     })
     .then((data)=>{
         if(!data) return res.redirect("/login?error=no account with email exist")
-       
         const token = setUser(data)
         res.cookie("jwt" , token)
         return res.redirect("/main")

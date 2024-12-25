@@ -22,6 +22,29 @@ const roomSchema = new mongoose.Schema({
                 type:String
             }
         }
+    ],
+    messages:[
+        {
+            userName:{
+                type:String,
+            },
+            message:{
+                type:String,
+            },
+            messageId:{
+                type:String,
+            },
+            userId:{
+                type:String,
+            },
+            time:{
+                type:String,
+            },
+            date:{
+                type:String,
+                default:null,
+            }
+        }
     ]
 })
 

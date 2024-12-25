@@ -20,13 +20,16 @@ function handelRoomRequest(req,res){
 
         
     }
-    function handelFindRoomRequest(req,res){
-        let {roomName , page}  = req.body
+   async function handelFindRoomRequest(req,res){
+        let {roomName }  = req.body
+        if(!roomName) return res.send({msg:'pls send room name'})
+        let page = Number(req.query.page)
         if(!page) page = 1;
-        const limit = 3;
+        const limit = 1;
         console.log(page)
         roomName = roomName.trim()
-        roomModel.find({
+        
+       let data = await roomModel.find({
             $or: [
                 { roomName : { $regex: `^${roomName}$`, $options: 'i' }}, 
                 { 'tags.tagName': { $regex: `^${roomName}$`, $options: 'i' } }
@@ -34,10 +37,17 @@ function handelRoomRequest(req,res){
         })
         .skip((page - 1) * limit)
         .limit(limit)
-        .then((data)=>{
-          return  res.render("findRoom",{data , page , roomName})
-        })
-        
-    }
+
+        const totalRooms = await roomModel.countDocuments({
+            $or: [
+                { roomName: roomName }, 
+                { 'tags.tagName': { $regex: `^${roomName}$`, $options: 'i' } }
+            ]
+        });
+
+        const totalPages = Math.ceil(totalRooms/limit);
+
+        return res.render("findRoom" , {data , page , roomName , totalPages})
+        }
 
 module.exports = {handelRoomRequest , handelFindRoomRequest}

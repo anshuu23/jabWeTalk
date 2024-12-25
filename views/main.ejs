@@ -36,14 +36,19 @@
             
             border-radius: 10px;
             padding: 30px;
-            padding: 10% 43% 0% 10%;
-            height: 60vh;
+            padding: 0% 33% 0% 6%;           
             box-sizing: border-box;
             background-image: url('../photos/message.png');
             background-size: 300px;
-    background-repeat: no-repeat;
-    background-position: 82%;
-    border: 2px solid;
+            background-repeat: no-repeat;
+            background-position: 82%;
+            border: 2px solid;
+        }
+        .intro h1{
+            font-size: 70px;
+        }
+        .intro p{
+            font-size: 22px;
         }
         main{
             padding: 10px;
@@ -79,10 +84,10 @@
             flex-direction: column;
             }
         .randomChat{
-            height: 50vh;
+            
             border: 2px solid black;
             border-radius: 10px;
-            padding: 10px;
+            padding: 20px;
             margin-top: 50px;
         }
         footer{
@@ -118,12 +123,16 @@
         .createRoom h2{
             margin: 0;
         }
-        .createRoom button{
+        .createRoom button , .randomChat a button{
             height: 40px;
             width: 230px;
             border-radius: 20px;
+            cursor: pointer;
         }
         .createRoom button:hover{
+           background-color: rgb(148, 209, 252);
+        }
+        .randomChat a button:hover{
            background-color: rgb(148, 209, 252);
         }
         .searchRoom{
@@ -133,7 +142,7 @@
             width: -webkit-fill-available;
             margin-top: 30px;
         }
-        .searchRoom input ,  .searchRoom button{
+        .searchRoom input ,  .searchRoom button {
             height: 30px;
             width: 250px;
             border-radius: 10px;
@@ -142,6 +151,9 @@
         .searchRoom button{
             width: 80px;
             cursor: pointer;
+        }
+        #aboutAnchor{
+            border: none;
         }
         @media (max-width:750px) {
            .intro{
@@ -153,6 +165,9 @@
            .defaultBlock{
             width: 80vw;
            }
+           .intro h1{
+            font-size: 50px;
+        }
         }
         
     </style>
@@ -160,7 +175,8 @@
 <body>
     <header>
         <h2>jab we talk </h2>
-        <ul>   
+        <ul>
+            <li id="aboutAnchor"><a href="/about">About</a></li>   
             <li><a href="/login">Log-in</a></li>
             <li><a href="/CreateAccount">Sign-up</a></li>
         </ul>
@@ -204,21 +220,12 @@
         <div class="randomChat">
 
             <h2>chat with random peoples</h2>
-            <p>chat with random people</p>
+            <a href="/randomChat"><button>Random Chat</button></a>
             
         </div>
         
     </main>
-    <footer>
-        <ul>
-            <li>about us</li>
-            <li>privacy policy</li>
-            <li>contact us</li>
-            <li>feedback</li>
-            
-        </ul>
-    </footer>
-
+   
     <script src="socket.io/socket.io.js"></script>
 
     <script>
