@@ -9,6 +9,7 @@ const mainRouter = require("./routes/mainRouter")
 const roomRouter = require("./routes/roomRouter")
 const createRoomRouter = require("./routes/createRoomRouter")
 const randomChatRouter = require("./routes/randomChatRouter")
+const staticCreateRoomRouter = require("./routes/staticCreateRoomRouter")
 const {initializeSocket} = require("./services/webSocketService")
 
 const http = require("http")
@@ -34,7 +35,8 @@ app.use("/user", userRouter)
 app.use("/main", mainRouter)
 app.use("/room", restrictTo(["standard"]), roomRouter)
 app.use("/randomChat", restrictTo(["standard"]), randomChatRouter)
-app.use('/handelCreateRoom', createRoomRouter)
+app.use('/handelCreateRoom',restrictTo(["standard"]), createRoomRouter)
+app.use('/createRoom', staticCreateRoomRouter)
 app.use('/', staticRouter)
 
 
