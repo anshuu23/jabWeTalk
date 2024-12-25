@@ -63,12 +63,10 @@
      
 🌐 Project Links
        
-            GitHub Repository: [Link Here] <br><br>
-            Live Demo: [Link Here]
+           
+            Live Demo:https://jabwetalk.onrender.com
        
      
-        👤 About the Developer
-        Hey! I’m Anshu Mohan Joshi, a backend developer passionate about creating scalable and efficient applications. JabweChat was an exciting challenge that allowed me to implement real-time communication, optimize database operations, and follow the MVC architecture.
 
          Let’s connect:
             
