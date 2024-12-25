@@ -36,7 +36,7 @@ app.use("/main", mainRouter)
 app.use("/room", restrictTo(["standard"]), roomRouter)
 app.use("/randomChat", restrictTo(["standard"]), randomChatRouter)
 app.use('/handelCreateRoom',restrictTo(["standard"]), createRoomRouter)
-app.use('/createRoom', staticCreateRoomRouter)
+app.use('/createRoom',restrictTo(["standard"]), staticCreateRoomRouter)
 app.use('/', staticRouter)
 
 
