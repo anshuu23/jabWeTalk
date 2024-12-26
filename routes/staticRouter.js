@@ -13,9 +13,7 @@ router.get("/login" , (req,res)=>{
     res.render("login" , {err})
 })
 
-router.get("/createRoom" , (req,res)=>{
-    res.render("createRoom")
-})
+
 
 router.get("/about" , (req,res)=>{
     res.render("about")
