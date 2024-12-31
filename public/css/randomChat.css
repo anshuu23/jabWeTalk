@@ -75,9 +75,8 @@ body {
   }
 
   #notificationBar {
-    height: 20px;
-
-    font-size: 12px;
+    height: 25px;
+    font-size: 16px;
     text-align: center;
   }
 
