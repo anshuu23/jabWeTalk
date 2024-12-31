@@ -1,0 +1,26 @@
+header h2{
+    color: #1d73f5;
+}
+body{
+    padding: 0;
+    margin: 0;
+   
+    
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 0px 5px black;
+    margin-bottom: 20px;
+    padding: 0 10px 0 10px;
+}
+main {
+max-width: 943px;
+margin: auto;
+padding: 10px;
+border: 2px solid;
+border-radius: 6px;
+font-size: 20px;
+font-family: system-ui;
+}
