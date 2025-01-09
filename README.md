@@ -2,7 +2,9 @@
      
    
       🚀 What is Jab-We-Talk?
-        JabweChat is a real-time chat application built for seamless and interactive communication. Users can create chat rooms or join random chats effortlessly. With features like real-time typing indicators, message statuses, and room management, JabweChat offers a smooth chatting experience.
+        JabweChat is a real-time chat application built for seamless and interactive communication.
+        Users can create chat rooms or join random chats effortlessly. With features like real-time typing indicators, message statuses, and room management.
+        JabweChat offers a smooth chatting experience.
    
  
   ⚡ Key Features
@@ -40,10 +42,17 @@
     
          How it Works
        
-         Real-Time Chat: <br></b> Exchange messages in real-time with typing indicators and message statuses.
-      Create or Join Rooms: <br></b> Users can create rooms with descriptions and tags or join existing ones.
-        Room Listings: <br></b> Popular rooms are displayed on the main page.
-       Efficient Database Storage: <br></b> Messages are batched and saved periodically to optimize performance.
+         Real-Time Chat:
+         Exchange messages in real-time with typing indicators and message statuses.
+         
+         Create or Join Rooms:
+         Users can create rooms with descriptions and tags or join existing ones.
+         
+         Room Listings: 
+         Popular rooms are displayed on the main page.
+         
+         Efficient Database Storage: 
+         Messages are batched and saved periodically to optimize performance.
        
    
      
@@ -68,9 +77,4 @@
        
      
 
-         Let’s connect:
-            
-            GitHub 
-           
-    </div>
      
