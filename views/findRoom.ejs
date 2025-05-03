@@ -17,22 +17,40 @@
         </ul>
     </header>
     <main>
-    <div class="searchRoom">
-        <form action="/room/findRoom" method="post">
-            Search Room : <input type="text" name="roomName" required placeholder="room name or room tag">
-            <button type="submit">search</button>
-        </form>
-    </div>
-    <div class="popularChatRooms"> 
-        <% data.forEach(room => { %>
-            <a href="/room?room=<%=room.roomName%>">
-            <div class="defaultBlock">
-                <div class="roomTitle"><%=room.roomName%></div>
-                <div class="wrapperForEyeAndPeopelInRoom"><img src="/photos/eye.png" alt="eye img" height="17px"><b class="peopleOnline" id="<%=room.roomName%>"></b></div>
-                <div class="description"><%=  room.roomDescription%></div>
-            </div></a>
-        <% }) %>
-       
+   
+        <div class="searchRoom">
+            <form action="/room/findRoom" method="post">
+                <div>
+                    <input class="input" type="text" name="roomName" required placeholder="room name or tag">
+                    <button class="input" type="submit">search</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="section3Wrapper">
+            <% data.forEach(room=> { %>
+                <a href="/room?room=<%=room.roomName%>" class="section3Box">
+
+                    <div class="wrapperfordection3Box">
+                        <div class="">
+                            <b class="section3BoxTitle">
+                                <%=room.roomName%>
+                            </b>
+                        </div>
+                        <div class="">
+                            <img src="/photos/eye.png" alt="eye img" height="25px"><b class=""
+                                id="<%=room.roomName%>"></b>
+                        </div>
+                    </div>
+                    <div class="section3BoxDesc">
+                        <%= room.roomDescription%>
+                    </div>
+
+                </a>
+                <% }) %>
+
+
         </div>
         <div class="changePage">
         <% if (page > 1) { %>

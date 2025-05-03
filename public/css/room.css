@@ -4,6 +4,14 @@ body {
     font-family: WF Visual Sans Text, Arial, sans-serif;
     height: 100vh;
     width: 100vw;
+    font-family: "Inter", sans-serif;
+
+    --color: #E1E1E1;
+  background-color: #F3F3F3;
+  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+  background-size: 55px 55px;
+
   }
 
   header {
@@ -14,6 +22,7 @@ body {
 
     padding: 0 10px 0 10px;
     height: 7vh;
+    background-color: #fff;
   }
 
   ul {
@@ -28,9 +37,10 @@ body {
   }
 
   header h2 {
-    color: #1d73f5;
-    cursor: pointer;
-    font-size: 20px;
+    color: #000000;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    margin-left: 5%;
   }
 
   main {
@@ -92,7 +102,7 @@ body {
   }
 
   .userMsgBlock {
-    border: 2px solid black;
+    border: 1px solid black;
     margin: 4px;
     padding: 5px;
     max-width: 80vw;
@@ -119,7 +129,7 @@ body {
 
   .userMsgBlockSelf {
     
-    background-color: #8dbaff;
+    background-color: #ffffff;
   }
 
   .wrapperSelf {
@@ -134,3 +144,118 @@ body {
   .wrapper{
     clear: both;
   }
+
+
+  /* From Uiverse.io by vinodjangid07 */ 
+.messageBox {
+    width: 90vw;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 0 15px;
+    border-radius: 10px;
+    border: 1px solid rgb(63, 63, 63);
+  }
+  .messageBox:focus-within {
+    border: 1px solid rgb(110, 110, 110);
+  }
+  .fileUploadWrapper {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    flex-grow: 1;
+  }
+  
+  #file {
+    display: none;
+  }
+  .fileUploadWrapper label {
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .fileUploadWrapper label svg {
+    height: 18px;
+  }
+  .fileUploadWrapper label svg path {
+    transition: all 0.3s;
+  }
+  .fileUploadWrapper label svg circle {
+    transition: all 0.3s;
+  }
+  .fileUploadWrapper label:hover svg path {
+    stroke: #fff;
+  }
+  .fileUploadWrapper label:hover svg circle {
+    stroke: #fff;
+    fill: #3c3c3c;
+  }
+  .fileUploadWrapper label:hover .tooltip {
+    display: block;
+    opacity: 1;
+  }
+  .tooltip {
+    position: absolute;
+    top: -40px;
+    display: none;
+    opacity: 0;
+    color: white;
+    font-size: 10px;
+    text-wrap: nowrap;
+    background-color: #000;
+    padding: 6px 10px;
+    border: 1px solid #3c3c3c;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.596);
+    transition: all 0.3s;
+  }
+  .messageInput {
+    
+    height: 100%;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    flex-grow: 1;
+  }
+  .messageInput:focus ~ #sendButton svg path,
+  .messageInput:valid ~ #sendButton svg path {
+    fill: #3c3c3c;
+    stroke: white;
+  }
+  
+  .sendButton {
+    width: fit-content;
+    height: 100%;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .sendButton svg {
+    height: 18px;
+    transition: all 0.3s;
+  }
+  .sendButton svg path {
+    transition: all 0.3s;
+  }
+  .sendButton:hover svg path {
+    fill: #3c3c3c;
+    stroke: white;
+  }
+  

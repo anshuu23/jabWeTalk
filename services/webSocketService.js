@@ -93,7 +93,6 @@ function initializeSocket(server){
             arr.forEach(message => {
                if(message.messageId == messageId) {
                 message.messageStatus = true
-                
             } 
             });
             messageMap.set(room , arr)
@@ -163,7 +162,7 @@ function initializeSocket(server){
 
                 randomChatMap.set(partner.id , room)
                 randomChatMap.set(socket.id , room)
-               
+                
             }
     
             })
