@@ -88,6 +88,7 @@ section{
     height: 300px;
 }
 form p  {
+
     font-size: 14px;
     color: #747487
 }
@@ -118,6 +119,9 @@ label{
 }
 
 .secction2 img{
+    width: 50vw;
+}
+.secction3 img{
     width: 50vw;
 }
 @media (max-width:800px) {
